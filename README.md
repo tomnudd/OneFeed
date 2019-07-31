@@ -1,5 +1,5 @@
 # OneFeed (Programming Summative 2)
-z----2, April 2019
+April 2019
 
 ## Introduction
 OneFeed is a web app that combines multiple social media platforms into a single, unique feed.
