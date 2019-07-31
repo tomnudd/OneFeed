@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OneFeed</title>
+    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <link href="/dashboard.css" rel="stylesheet">
+
+    <script src="/index.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#collapseSidebar').on('click', function() {
+                $('#sidebar').toggleClass('active');
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-default navbar-inverse navbar-dark bg-dark sticky-top">
+        <a class="navbar-brand" href="#"><b>One</b>Feed</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Login">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="Login">
+            <ul class="nav-list nav navbar-nav ml-auto">
+                <li class="nav-item" id="igItem">
+                    <a class="nav-link" href="http://127.0.0.1:8090/instagram/login">Login with Instagram</a>
+                </li>
+                <!--<li class="nav-item" id="tbItem">
+                    <a class="nav-link" href="http://127.0.0.1:8090/tumblr/login">Login with Tumblr</a>
+                </li>-->
+                <li class="nav-item" id="ytItem">
+                    <a class="nav-link" href="http://127.0.0.1:8090/youtube/login">Login with YouTube</a>
+                </li>
+                <li class="nav-item" id="twItem">
+                    <a class="nav-link" href="http://127.0.0.1:8090/twitter/login">Login with Twitter</a>
+                </li>
+                <li class="nav-item" id="logout">
+                    <a class="nav-link" href="#" onclick="_logout()">Logout</a>
+                </li>
+                <li class="nav-item" id="settingsIcon">
+                    <button type="button" class="btn btn-dark" id="collapseSidebar" title="Settings"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="wrapper">
+
+        <div class="container" id="content">
+            <div class="row justify-content-center">
+                <div class="col-10" id="posts">
+                    <!-- ITEMS -->
+                    <div id="logInToSite" class="alert alert-warning" role="alert">Please log in with at least one strategy to add content.</div>
+                    <div id="serverDown" class="alert alert-warning serverError" role="alert">OneFeed server down<br/>There may be some reduced functionality.</div>
+                    <div id="serverDownTW" class="alert alert-warning" role="alert">Twitter server down<br/>There may be some reduced functionality.</div>
+                    <div id="serverDownRE" class="alert alert-warning" role="alert">Reddit server down<br/>There may be some reduced functionality.</div>
+                    <div id="serverDownIG" class="alert alert-warning" role="alert">Instagram server down<br/>There may be some reduced functionality.</div>
+                    <div id="serverDownYT" class="alert alert-warning" role="alert">YouTube server down<br/>There may be some reduced functionality.</div>
+
+                    <div class="card gedf-card">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active show" id="jokes-tab" data-toggle="tab" href="#jokes" role="tab" aria-controls="jokes" aria-selected="true">Joke</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="tweets-tab" data-toggle="tab" role="tab" aria-controls="tweets" aria-selected="false" href="#tweets">Post</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane fade active show" id="jokes" role="tabpanel" aria-labelledby="jokes-tab">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="joke" rows="3" placeholder="Submit a joke."></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                      <textarea class="form-control" id="author" rows="1" placeholder="Author"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" id="addNew" onclick="_addJoke()">Submit</button>
+                                </div>
+                                <div class="tab-pane fade" id="tweets" role="tabpanel" aria-labelledby="tweets-tab">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="tweetContent" rows="3" placeholder="Post"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                      <textarea class="form-control" id="postAuthor" rows="1" placeholder="Author"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" id="addPost" onclick="_addPost()">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="sidebar">
+          <ul id="settingsList" class="list-unstyled">
+                <!--list-group-->
+            <li class="list-group-item text-white bg-dark rounded-0" id="set">Settings</li>
+            <li><a href="#reddit" data-toggle="collapse" class="list-group-item bg-secondary">
+              <span class="menu-collapsed text-white font-weight-lighter">Reddit</span>
+            </a></li>
+            <li id="reddit" class="collapse">
+              <span class="list-group-item coll text-white sidebarText">
+                <span class="ui-widget">
+                    <input id="subreddit" placeholder="Subreddit">  <a href="#" class="badge badge-secondary additem">Add</a>
+                </span>
+                <span id="badges">
+                  <span class="badge badge-secondary font-weight-lighter">rarepuppers<a href="#" class="rmv"><i class="remove fas fa-times"></i></a></span>
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <a href="#twitter" data-toggle="collapse" class="list-group-item bg-secondary">
+                <span class="menu-collapsed text-white font-weight-lighter">Twitter</span>
+              </a>
+            </li>
+            <li id="twitter" class="collapse">
+              <span class="list-group-item coll text-white sidebarText">
+                <span class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="twitterCheckbox" disabled>
+                  <label class="form-check-label" for="twitterCheckbox">
+                    Twitter timeline
+                  </label>
+                </span>
+
+              </span>
+            </li>
+
+            <li>
+              <a href="#instagram" data-toggle="collapse" class="list-group-item bg-secondary">
+                <span class="menu-collapsed text-white font-weight-lighter">Instagram</span>
+              </a>
+            </li>
+            <li id="instagram" class="collapse">
+              <span class="list-group-item coll text-white sidebarText">
+                <span class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="instagramCheckbox" disabled>
+                  <label class="form-check-label" for="instagramCheckbox">
+                    Your instagram posts
+                  </label>
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <a href="#youtube" data-toggle="collapse" class="list-group-item bg-secondary">
+                <span class="menu-collapsed text-white font-weight-lighter">YouTube</span>
+              </a>
+            </li>
+            <li id="youtube" class="collapse">
+              <span class="list-group-item coll text-white sidebarText">
+                <span class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="youtubeCheckbox" disabled>
+                  <label class="form-check-label" for="youtubeCheckbox">
+                    YouTube suggestions
+                  </label>
+                </span>
+              </span>
+            </li>
+
+            <!--<li>
+              <a href="#tumblr" data-toggle="collapse" class="list-group-item bg-secondary">
+                <span class="menu-collapsed text-white font-weight-lighter">Tumblr</span>
+              </a>
+            </li>
+            <li id="tumblr" class="collapse">
+              <span class="list-group-item coll text-white sidebarText">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="tumblrCheckbox" disabled>
+                  <label class="form-check-label" for="tumblrCheckbox">
+                    Tumblr dashboard
+                  </label>
+                </div>
+              </span>
+            </li>-->
+
+            <li>
+              <a href="#jokesService" data-toggle="collapse" class="list-group-item bg-secondary">
+                <span class="menu-collapsed text-white font-weight-lighter">Jokes</span>
+              </a>
+            </li>
+            <li id="jokesService" class="collapse">
+              <span class="list-group-item coll text-white sidebarText">
+                <span class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="jokesCheckbox" checked>
+                  <label class="form-check-label" for="jokesCheckbox">
+                    Jokes service
+                  </label>
+                </span>
+              </span>
+            </li>
+
+            <li>
+              <a href="#postsService" data-toggle="collapse" class="list-group-item bg-secondary">
+                <span class="menu-collapsed text-white font-weight-lighter">Posts</span>
+              </a>
+            </li>
+            <li id="postsService" class="collapse">
+              <span class="list-group-item coll text-white sidebarText">
+                <span class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="postsCheckbox" checked>
+                  <label class="form-check-label" for="postsCheckbox">
+                    Posts service
+                  </label>
+                </span>
+              </span>
+            </li>
+          </ul>
+        </div>
+    </div>
+</body>
